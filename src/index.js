@@ -1,7 +1,9 @@
 const postcss = require('postcss');
 const safe = require('postcss-safe-parser');
+const cssToObject = require('./css-to-object')
 
-module.exports = function({types: t}) {
+
+module.exports = function(babel) {
   return {
     visitor: {
       TaggedTemplateExpression: function(path, state) {
@@ -26,8 +28,12 @@ module.exports = function({types: t}) {
 
         const {quasis, exprs} = splitExpressions(processed);
 
-        const quasisAst = buildQuasisAst(t, quasis);
+        const quasisAst = buildQuasisAst(babel.types, quasis);
         const exprsAst = exprs.map(exprIndex => nodeExprs[exprIndex]);
+
+        if(state.opts.cssToObject) {
+          return path.replaceWithMultiple(cssToObject(processed,exprsAst,babel));
+        }
 
         path.node.quasi.quasis = quasisAst;
         path.node.quasi.expressions = exprsAst;
