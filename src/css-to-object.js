@@ -25,19 +25,19 @@ function transform(rules) {
     });
    return result
 }
-var nameGenerator = function (name) {
+function nameGenerator (name) {
     name = name.replace(/\s\s+/g, ' ');
     name = name.replace(/[^a-zA-Z0-9]/g, '_');
     name = name.replace(/^_+/g, '');
     name = name.replace(/_+$/g, '');
     return name;
 }
-var toCamelCase = function(name) {
+function toCamelCase (name) {
     return name.replace(/(-.)/g, function(v) { return v[1].toUpperCase(); })
 }
 
 
-module.exports = (css,expres,babel) =>{
+module.exports = function (css,expres,babel) {
   css = JSON.stringify(transform(parse(css).stylesheet.rules));
   css = concatExprse(css,expres, babel);
   var result = babel.transform('('+css+')');
