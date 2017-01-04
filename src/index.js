@@ -32,7 +32,7 @@ module.exports = function(babel) {
         const exprsAst = exprs.map(exprIndex => nodeExprs[exprIndex]);
 
         if(state.opts.cssToObject) {
-          return path.replaceWithMultiple(cssToObject(processed,exprsAst,babel));
+          return path.replaceWithMultiple(cssToObject(processed,exprsAst,babel,state.opts.cssToObject));
         }
 
         path.node.quasi.quasis = quasisAst;
