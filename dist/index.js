@@ -38,7 +38,7 @@ module.exports = function (babel) {
         });
 
         if (state.opts.cssToObject) {
-          return path.replaceWithMultiple(cssToObject(processed, exprsAst, babel));
+          return path.replaceWithMultiple(cssToObject(processed, exprsAst, babel, state.opts.cssToObject));
         }
 
         path.node.quasi.quasis = quasisAst;

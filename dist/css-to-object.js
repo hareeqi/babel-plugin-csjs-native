@@ -39,9 +39,11 @@ function toCamelCase(name) {
     });
 }
 
-module.exports = function (css, expres, babel) {
+module.exports = function (css, expres, babel, options) {
     css = JSON.stringify(transform(parse(css).stylesheet.rules));
     css = concatExprse(css, expres, babel);
+    css = options.isReactNative ? 'require("react-native").StyleSheet.create(' + css + ')' : '(' + css + ')';
+    css = options.funcText ? eval(ptions.funcText)(css) : css;
     var result = babel.transform('(' + css + ')');
     return result.ast.program.body;
 };
